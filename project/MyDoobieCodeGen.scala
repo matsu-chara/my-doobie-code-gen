@@ -3,9 +3,9 @@ import java.awt.datatransfer.DataFlavor
 import java.io.{PrintWriter, Writer}
 
 import com.github.jknack.handlebars.Handlebars
-import sbt.{AutoPlugin, Def, Task, taskKey}
 import sbt.Keys.streams
 import sbt.io.Using
+import sbt.{Def, Task, taskKey}
 
 import scala.io.Source
 import scala.util.control.NonFatal
