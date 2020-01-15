@@ -8,8 +8,10 @@ on:
 
 jobs:
   format:
-    name: Scalafmt Action
-    uses: openlawteam/scalafmt-ci@v2.0.2
+    runs-on: ubuntu-latest
+    steps:
+      - name: Scalafmt Action
+        uses: openlawteam/scalafmt-ci@v2.0.2
   test:
     name: Scala
     runs-on: ubuntu-latest
