@@ -34,7 +34,8 @@ object MyDoobieCodeGen {
     }
 
     //CREATE TABLE table_name
-    val table = tableLine.dropWhile(_.isWhitespace).split(' ').apply(2)
+    val table =
+      tableLine.dropWhile(_.isWhitespace).split(' ').apply(2).split('(')(0)
 
     //field_name data_type ~~,
     val fieldLines = restLines.takeWhile(!_.startsWith("PRIMARY KEY"))

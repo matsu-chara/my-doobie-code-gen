@@ -17,7 +17,5 @@ object {{table}}_sql {
     |)
     |VALUES
     |  ({{#fields}}?{{#unless @last}},{{/unless}}{{/fields}})
-    |FROM
-    |  {{table}}
     |""".stripMargin
 }
