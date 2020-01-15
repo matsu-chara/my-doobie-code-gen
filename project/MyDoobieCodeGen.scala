@@ -3,7 +3,9 @@ import java.awt.datatransfer.DataFlavor
 import java.io.Writer
 
 import com.github.jknack.handlebars.Handlebars
-import com.github.jknack.handlebars.io.FileTemplateLoader
+import sbt.io.Using
+
+import scala.io.Source
 
 object MyDoobieCodeGen {
   def getTableFromClipBoard: Table = {
@@ -34,10 +36,15 @@ object MyDoobieCodeGen {
   }
 
   def render(table: Table, writer: Writer, filePath: String): Unit = {
-    import scala.collection.JavaConverters._
+    val using = Using.resource { str: String =>
+      Source.fromURL(getClass.getResource(str))
+    }
 
-    val handlebars = new Handlebars(new FileTemplateLoader("/"))
-    val template = handlebars.compile(filePath)
+    val handlebars = new Handlebars()
+    val templateStr = using("/templates/sql.hbs")(_.mkString)
+    val template = handlebars.compileInline(templateStr)
+
+    import scala.collection.JavaConverters._
     template.apply(table.toMap.asJava, writer)
   }
 
