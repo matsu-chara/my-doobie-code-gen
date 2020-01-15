@@ -27,10 +27,16 @@ jobs:
         with:
           path: ~/.cache
           key: ${{ runner.os }}-sbt-coursier-cache-${{ hashFiles('**/build.sbt') }}
+          restore-keys: |
+            ${{ runner.os }}-sbt-coursier-cache-${{ hashFiles('**/build.sbt') }}
+            ${{ runner.os }}-sbt-coursier-cache-
       - name: Cache SBT
         uses: actions/cache@v1
         with:
           path: ~/.sbt
-          key: ${{ runner.os }}-sbt-${{ hashFiles('**/build.sbt') }}
+          key: ${{ runner.os }}-sbt-cache-${{ hashFiles('**/build.sbt') }}
+          restore-keys: |
+            ${{ runner.os }}-sbt-cache-${{ hashFiles('**/build.sbt') }}
+            ${{ runner.os }}-sbt-cache-
       - name: test
         run: sbt test
