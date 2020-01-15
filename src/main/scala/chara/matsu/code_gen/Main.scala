@@ -20,15 +20,24 @@ object Main {
   private def getTable: Table = {
     val str = clipboard.getData(DataFlavor.stringFlavor).asInstanceOf[String]
     val itr = str.linesIterator
-    val tableLine = itr.next()
-    val fieldLines = itr.toList.takeWhile(s => !s.contains("PRIMARY KEY"))
+    val tableLine = itr.next().dropWhile(_.isWhitespace)
+    val fieldLines = itr.toList
+      .takeWhile(s => !s.contains("PRIMARY KEY"))
+      .map(_.dropWhile(_.isWhitespace))
 
     //CREATE TABLE table_name
+    if (!tableLine.startsWith("CREATE TABLE")) {
+      throw new IllegalArgumentException(
+        "clipboard does not have create table statement")
+    }
     val table = tableLine.dropWhile(_.isWhitespace).split(' ').apply(2)
 
-    //field_name data_type NOT NULL
-    val fields =
-      fieldLines.map(line => line.dropWhile(_.isWhitespace).split(' ').apply(0))
+    //field_name data_type ~~,
+    if (!fieldLines.exists(_.startsWith("PRIMARY KEY"))) {
+      throw new IllegalArgumentException(
+        "clipboard does not have create table statement with primary key")
+    }
+    val fields = fieldLines.map(line => line.split(' ').apply(0))
 
     Table(table, fields)
   }
