@@ -12,7 +12,7 @@ import scala.util.control.NonFatal
 
 object MyDoobieCodeGen {
   object Keys {
-    lazy val genSqlFromClipBoard = taskKey[Unit]("generate sql from clip board")
+    val genSqlFromClipBoard = taskKey[Unit]("generate sql from clip board")
   }
 
   def genTask: Def.Initialize[Task[Unit]] = Def.task {
@@ -29,13 +29,13 @@ object MyDoobieCodeGen {
     }
   }
 
-  def getClipBoard(): Seq[String] = {
+  private def getClipBoard(): Seq[String] = {
     val clipboard = Toolkit.getDefaultToolkit.getSystemClipboard
     val str = clipboard.getData(DataFlavor.stringFlavor).asInstanceOf[String]
     str.linesIterator.toList
   }
 
-  def parseCreateTable(rawLines: Seq[String]): Table = {
+  private def parseCreateTable(rawLines: Seq[String]): Table = {
     if (rawLines.size <= 1) {
       throw new IllegalArgumentException(
         s"args size (${rawLines.size}) is too small."
@@ -68,7 +68,7 @@ object MyDoobieCodeGen {
     Table(table, fields)
   }
 
-  def render(table: Table, writer: Writer): Unit = {
+  private def render(table: Table, writer: Writer): Unit = {
     val using = Using.resource { str: String =>
       Source.fromURL(getClass.getResource(str))
     }
@@ -81,7 +81,7 @@ object MyDoobieCodeGen {
     template.apply(table.toMap.asJava, writer)
   }
 
-  case class Table(name: String, fields: Seq[String]) {
+  private case class Table(name: String, fields: Seq[String]) {
     def toMap: Map[String, Any] = {
       Map(
         "table" -> name,
