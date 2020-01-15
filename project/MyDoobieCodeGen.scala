@@ -17,7 +17,8 @@ object MyDoobieCodeGen {
   def parseCreateTable(rawLines: Seq[String]): Table = {
     if (rawLines.size <= 1) {
       throw new IllegalArgumentException(
-        s"args size (${rawLines.size}) is too small.")
+        s"args size (${rawLines.size}) is too small."
+      )
     }
 
     val lines = rawLines.map(_.dropWhile(_.isWhitespace))
@@ -26,11 +27,13 @@ object MyDoobieCodeGen {
 
     if (!tableLine.startsWith("CREATE TABLE")) {
       throw new IllegalArgumentException(
-        "clipboard does not have create table statement")
+        "clipboard does not have create table statement"
+      )
     }
     if (!restLines.exists(_.startsWith("PRIMARY KEY"))) {
       throw new IllegalArgumentException(
-        "clipboard does not have create table statement with primary key")
+        "clipboard does not have create table statement with primary key"
+      )
     }
 
     //CREATE TABLE table_name
