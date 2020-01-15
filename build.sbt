@@ -17,10 +17,7 @@ lazy val root = (project in file("."))
         val lines = MyDoobieCodeGen.getClipBoard()
         val table = MyDoobieCodeGen.parseCreateTable(lines)
         val writer = new PrintWriter(System.out)
-        MyDoobieCodeGen.render(
-          table,
-          writer,
-          (resourceDirectory in Compile).value.getAbsolutePath + "/templates/sql")
+        MyDoobieCodeGen.render(table, writer)
         writer.flush()
       } catch {
         case NonFatal(e) =>

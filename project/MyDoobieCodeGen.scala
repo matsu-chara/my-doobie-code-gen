@@ -43,7 +43,7 @@ object MyDoobieCodeGen {
     Table(table, fields)
   }
 
-  def render(table: Table, writer: Writer, filePath: String): Unit = {
+  def render(table: Table, writer: Writer): Unit = {
     val using = Using.resource { str: String =>
       Source.fromURL(getClass.getResource(str))
     }
