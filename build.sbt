@@ -22,7 +22,9 @@ lazy val root = (project in file("."))
           (resourceDirectory in Compile).value.getAbsolutePath + "/templates/sql")
         writer.flush()
       } catch {
-        case NonFatal(e) => streams.value.log.err(e.getMessage)
+        case NonFatal(e) =>
+          streams.value.log.error("error occurred. cause: " + e.toString)
+          throw e
       }
     }
   )
