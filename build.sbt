@@ -1,6 +1,6 @@
 lazy val root = (project in file("."))
   .settings(
-    name := "CodeGen",
+    name := "my-doobie-code-gen",
     version := "0.1",
     scalaVersion := "2.13.1",
     libraryDependencies ++= Seq(
