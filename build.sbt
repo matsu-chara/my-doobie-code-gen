@@ -1,8 +1,4 @@
-import java.io.PrintWriter
-
-import scala.util.control.NonFatal
-
-lazy val genSqlFromClipBoard = taskKey[Unit]("generate sql from clip board")
+import MyDoobieCodeGen.Keys._
 
 lazy val root = (project in file("."))
   .settings(
@@ -12,17 +8,5 @@ lazy val root = (project in file("."))
     libraryDependencies ++= Seq(
       "org.tpolecat" %% "doobie-core" % "0.8.8"
     ),
-    genSqlFromClipBoard := {
-      try {
-        val lines = MyDoobieCodeGen.getClipBoard()
-        val table = MyDoobieCodeGen.parseCreateTable(lines)
-        val writer = new PrintWriter(System.out)
-        MyDoobieCodeGen.render(table, writer)
-        writer.flush()
-      } catch {
-        case NonFatal(e) =>
-          streams.value.log.error("error occurred. cause: " + e.toString)
-          throw e
-      }
-    }
+    genSqlFromClipBoard := MyDoobieCodeGen.genTask.value
   )

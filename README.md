@@ -12,12 +12,7 @@ CREATE TABLE user(
     first_name varchar(255), -- 姓
     PRIMARY KEY (no, department_no)
 );
-EOSCREATE TABLE user(
-    id int NOT NULL,  -- 従業員番号
-    last_name varchar(255), -- 名
-    first_name varchar(255), -- 姓
-    PRIMARY KEY (no, department_no)
-);
+EOS
 
 $ sbt genSqlFromClipBoard
 ```

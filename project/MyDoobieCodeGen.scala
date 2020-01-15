@@ -1,13 +1,34 @@
 import java.awt.Toolkit
 import java.awt.datatransfer.DataFlavor
-import java.io.Writer
+import java.io.{PrintWriter, Writer}
 
 import com.github.jknack.handlebars.Handlebars
+import sbt.{AutoPlugin, Def, Task, taskKey}
+import sbt.Keys.streams
 import sbt.io.Using
 
 import scala.io.Source
+import scala.util.control.NonFatal
 
 object MyDoobieCodeGen {
+  object Keys {
+    lazy val genSqlFromClipBoard = taskKey[Unit]("generate sql from clip board")
+  }
+
+  def genTask: Def.Initialize[Task[Unit]] = Def.task {
+    try {
+      val lines = MyDoobieCodeGen.getClipBoard()
+      val table = MyDoobieCodeGen.parseCreateTable(lines)
+      val writer = new PrintWriter(System.out)
+      MyDoobieCodeGen.render(table, writer)
+      writer.flush()
+    } catch {
+      case NonFatal(e) =>
+        streams.value.log.error("error occurred. cause: " + e.toString)
+        throw e
+    }
+  }
+
   def getClipBoard(): Seq[String] = {
     val clipboard = Toolkit.getDefaultToolkit.getSystemClipboard
     val str = clipboard.getData(DataFlavor.stringFlavor).asInstanceOf[String]
