@@ -1,0 +1,23 @@
+object {{table}}_sql {
+  import doobie.implicits.toSqlInterpolator
+  import doobie.util.fragment.Fragment
+
+  def selectFrom: Fragment = fr"""
+    |SELECT
+{{#fields}}    |  `{{this}}`{{#unless @last}},
+{{/unless}}{{/fields}}
+    |FROM
+    |  `{{table}}`
+    |""".stripMargin
+
+  def insert: Fragment = sql"""
+    |INSERT INTO `{{table}}` (
+{{#fields}}    |  `{{this}}`{{#unless @last}},
+{{/unless}}{{/fields}}
+    |)
+    |VALUES
+    |  ({{#fields}}?{{#unless @last}},{{/unless}}{{/fields}})
+    |FROM
+    |  {{table}}
+    |""".stripMargin
+}
