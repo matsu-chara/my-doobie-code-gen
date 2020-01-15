@@ -26,7 +26,7 @@ jobs:
       - uses: actions/cache@v1
         with:
           path: ~/.cache
-          key: ${{ runner.os }}-scala-2.13-${{ hashFiles('**/*.sbt') }}
-          restore-keys: ${{ runner.os }}-scala-2.13-
+          key: ${{ runner.os }}-scala-${{ hashFiles('**/*.sbt') }}
+          restore-keys: ${{ runner.os }}-scala-
       - name: test
         run: sbt test
