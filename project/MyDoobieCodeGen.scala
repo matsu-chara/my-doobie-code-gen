@@ -8,14 +8,21 @@ import sbt.io.Using
 import scala.io.Source
 
 object MyDoobieCodeGen {
-  def getTableFromClipBoard: Table = {
+  def getClipBoard(): Seq[String] = {
     val clipboard = Toolkit.getDefaultToolkit.getSystemClipboard
-    val str =
-      clipboard.getData(DataFlavor.stringFlavor).asInstanceOf[String]
-    val itr = str.linesIterator.map(_.dropWhile(_.isWhitespace))
-    val tableLine = itr.next()
-    val restLines = itr.toList
-    val fieldLines = restLines.takeWhile(!_.startsWith("PRIMARY KEY"))
+    val str = clipboard.getData(DataFlavor.stringFlavor).asInstanceOf[String]
+    str.linesIterator.toList
+  }
+
+  def parseCreateTable(rawLines: Seq[String]): Table = {
+    if (rawLines.size <= 1) {
+      throw new IllegalArgumentException(
+        s"args size (${rawLines.size}) is too small.")
+    }
+
+    val lines = rawLines.map(_.dropWhile(_.isWhitespace))
+    val tableLine = lines.head
+    val restLines = lines.tail
 
     if (!tableLine.startsWith("CREATE TABLE")) {
       throw new IllegalArgumentException(
@@ -30,6 +37,7 @@ object MyDoobieCodeGen {
     val table = tableLine.dropWhile(_.isWhitespace).split(' ').apply(2)
 
     //field_name data_type ~~,
+    val fieldLines = restLines.takeWhile(!_.startsWith("PRIMARY KEY"))
     val fields = fieldLines.map(line => line.split(' ').apply(0))
 
     Table(table, fields)

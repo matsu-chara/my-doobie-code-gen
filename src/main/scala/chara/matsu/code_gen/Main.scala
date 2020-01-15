@@ -6,6 +6,11 @@ object Main {
   }
 }
 
+/**
+  * sample result
+  *
+  * see genSqlFromClipBoard in build.sbt
+  */
 object sample2_employees_sql {
   import doobie.implicits.toSqlInterpolator
   import doobie.util.fragment.Fragment

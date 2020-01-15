@@ -14,7 +14,8 @@ lazy val root = (project in file("."))
     ),
     genSqlFromClipBoard := {
       try {
-        val table = MyDoobieCodeGen.getTableFromClipBoard
+        val lines = MyDoobieCodeGen.getClipBoard()
+        val table = MyDoobieCodeGen.parseCreateTable(lines)
         val writer = new PrintWriter(System.out)
         MyDoobieCodeGen.render(
           table,
