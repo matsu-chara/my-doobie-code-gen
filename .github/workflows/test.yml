@@ -7,13 +7,15 @@ on:
         - master
 
 jobs:
-  format:
+  scalafmt-lint:
     runs-on: ubuntu-latest
     steps:
-      - name: Scalafmt Action
-        uses: openlawteam/scalafmt-ci@v2.0.2
+      - uses: actions/checkout@v2
+      - name: scalafmt
+        uses: openlawteam/scalafmt-ci@v2
+        with:
+          args: "--exclude=third_party --list"
   test:
-    name: Scala
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
