@@ -1,5 +1,3 @@
-import MyDoobieCodeGen.Keys._
-
 lazy val root = (project in file("."))
   .settings(
     name := "my-doobie-code-gen",
@@ -7,6 +5,5 @@ lazy val root = (project in file("."))
     scalaVersion := "2.13.1",
     libraryDependencies ++= Seq(
       "org.tpolecat" %% "doobie-core" % "0.8.8"
-    ),
-    genSqlFromClipBoard := MyDoobieCodeGen.genTask.value
+    )
   )

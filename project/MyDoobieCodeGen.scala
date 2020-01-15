@@ -5,15 +5,21 @@ import java.io.{PrintWriter, Writer}
 import com.github.jknack.handlebars.Handlebars
 import sbt.Keys.streams
 import sbt.io.Using
-import sbt.{Def, Task, taskKey}
+import sbt.{AutoPlugin, Def, Task, taskKey}
 
 import scala.io.Source
 import scala.util.control.NonFatal
 
-object MyDoobieCodeGen {
-  object Keys {
+object MyDoobieCodeGen extends AutoPlugin {
+  object autoImport {
     val genSqlFromClipBoard = taskKey[Unit]("generate sql from clip board")
   }
+  import autoImport._
+
+  override def trigger = allRequirements
+  override lazy val buildSettings = Seq(
+      genSqlFromClipBoard := genTask.value
+  )
 
   def genTask: Def.Initialize[Task[Unit]] = Def.task {
     try {
