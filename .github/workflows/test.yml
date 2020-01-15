@@ -24,7 +24,7 @@ jobs:
           java-version: adopt@1.11
       - uses: actions/cache@v1
         with:
-          path: ~/.cache
+          path: ~/.ivy2/cache
           key: ${{ runner.os }}-scala-${{ hashFiles('**/*.sbt') }}
           restore-keys: ${{ runner.os }}-scala-
       - name: test
