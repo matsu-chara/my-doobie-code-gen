@@ -8,13 +8,8 @@ on:
 
 jobs:
   format:
-    name: format
-    runs-on: ubuntu-latest
-    container: mrothy/scalafmt-native
-    steps:
-      - uses: actions/checkout@v2
-      - name: scalafmt test
-        run: --test /src
+    name: Scalafmt Action
+    uses: openlawteam/scalafmt-ci@v2.0.2
   test:
     name: Scala
     runs-on: ubuntu-latest
