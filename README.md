@@ -7,10 +7,10 @@ this is just sample code repository.
 ```sh
 $ cat <<EOS | pbcopy
 CREATE TABLE user(
-    id int NOT NULL,  -- 従業員番号
+    id int NOT NULL,  -- ユーザーID
     last_name varchar(255), -- 名
     first_name varchar(255), -- 姓
-    PRIMARY KEY (no, department_no)
+    PRIMARY KEY (id)
 );
 EOS
 
