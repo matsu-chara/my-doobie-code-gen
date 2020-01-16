@@ -15,4 +15,27 @@ CREATE TABLE user(
 EOS
 
 $ sbt genSqlFromClipBoard
+object user_sql {
+  import doobie.implicits.toSqlInterpolator
+  import doobie.util.fragment.Fragment
+
+  def selectFrom: Fragment = fr"""
+                                 |SELECT
+                                 |  `id`,
+                                 |  `last_name`,
+                                 |  `first_name`
+                                 |FROM
+                                 |  `user`
+                                 |""".stripMargin
+
+  def insert: Fragment = sql"""
+                              |INSERT INTO `user` (
+                              |  `id`,
+                              |  `last_name`,
+                              |  `first_name`
+                              |)
+                              |VALUES
+                              |  (?,?,?)
+                              |""".stripMargin
+}
 ```
