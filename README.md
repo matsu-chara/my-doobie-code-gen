@@ -4,7 +4,7 @@ output sql fragment for doobie from clipboard DDL.
 this is just sample code repository.
 
 
-```
+```sh
 $ cat <<EOS | pbcopy
 CREATE TABLE user(
     id int NOT NULL,  -- 従業員番号
